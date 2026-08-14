@@ -1,3 +1,5 @@
+
+--$.tables[?(@.available==true)].id
 from playwright.sync_api import Page, expect
 
 def test_empty_form_submission(page: Page):

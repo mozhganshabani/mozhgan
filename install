@@ -1,0 +1,44 @@
+عملیات	دستور / اسکریپت نصب
+پیش‌نیاز	نصب Node.js (از سایت رسمی)
+نصب هسته اصلی	npm install -g newman
+نصب پکیج گزارش‌گیری	npm install -g newman-reporter-htmlextra
+نصب پکیج گزارش CSV	npm install -g newman-reporter-csv
+اجرا و تولید گزارش	newman run collection.json -e env.json -r cli,htmlextra
+------------------------------------------------------------------
+عملیات	دستور / اسکریپت نصب
+نصب پکیج و راه‌اندازی	npm init playwright@latest
+نصب مرورگرها (در صورت نیاز)	npx playwright install
+نصب گزارش‌گیر Allure	npm i -D @playwright/test allure-playwright
+اجرای تست‌ها	npx playwright test
+مشاهده گزارش پیش‌فرض	npx playwright show-report
+-------------------------------------------------------------
+عملیات	دستور / اسکریپت نصب
+نصب هسته اصلی	pip install selenium
+نصب مدیریت درایور (وب‌درایور)	pip install webdriver-manager
+نصب ابزار گزارش‌گیری	pip install allure-pytest
+اجرای تست (با pytest)	pytest test_file.py
+عملیات	دستور استاندارد (Best Practice)
+نصب سلنیوم و پای‌تست	python -m pip install selenium pytest
+نصب سایر پکیج‌ها (مثال)	python -m pip install webdriver-manager allure-pytest
+اجرای فایل تست	python -m pytest test_app.py
+---------------------------------------------------------
+عملیات	دستور / اسکریپت نصب
+نصب هسته اصلی	pip install pytest
+نصب گزارش‌گیر HTML 	pip install pytest-html
+نصب اجرای موازی (Concurrency)	pip install pytest-xdist
+نصب ابزار پوشش‌سنجی (Coverage)	pip install pytest-cov
+نصب تولید داده‌های فیک (Faker)	pip install pytest-faker
+اجرا با گزارش HTML	pytest --html=report.html
+اجرای موازی (مثلاً ۴ ورکر)	pytest -n 4
+اجرا با گزارش Coverage	pytest --cov=my_project/
+------------------------------------------------------
+عملیات	دستور / اسکریپت نصب
+نصب پکیج اصلی	pip install pytest-playwright
+نصب مرورگرها	playwright install
+اجرای تست	pytest --browser chromium --headed
+--------------------------------------------------------
+عملیات	توضیحات و دستورات
+پیش‌نیاز (نصب جاوا)	جی‌میتر به Java نسخه 8 یا بالاتر نیاز دارد. برای بررسی نصب بودن جاوا: <br>java -version
+نصب JMeter	۱. دانلود فایل zip. یا tgz. از سایت رسمی Apache JMeter<br>۲. استخراج (Extract) فایل در مسیر دلخواه.
+اجرای رابط کاربری (GUI)<br>(فقط برای طراحی تست)	رفتن به پوشه bin و اجرای:<br>ویندوز: jmeter.bat<br>مک/لینوکس: sh jmeter.sh
+نصب Plugin Manager<br>(بسیار مهم)	دانلود فایل jmeter-plugins-manager.jar و قرار دادن آن در مسیر lib/ext (برای مدیریت راحت‌تر پلاگین‌ها مثل Thread Groupهای پیشرفته).

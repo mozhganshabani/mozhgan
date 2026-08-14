@@ -28,3 +28,29 @@ else if(pm.response.code === 200){
     console.log("پرداخت موفق بود");
     pm.environment.unset("retry-count");
 };
+----------------------------------------
+idempotent:
+pre
+const uuid = pm.variables.replaceIn('{{$guid}}');
+pm.environment.set("idempotencyKey", uuid);
+
+console.log("Generated Idempotency-Key:", uuid);
+-----------------------------------------
+pm.test("status is 201",function(){
+    pm.response.to.be.have.status(201);
+});
+pm.test("extract booking-id",function(){
+    var jsondata= pm.response.json();
+    var status= jsondata.status;
+    pm.environment.set("booking_id",jsondata.booking_id);
+    if (status == "Pending"){
+        pm.execution.setNextRequest("Pay");
+    }else{
+        console.log("cant go next step");
+    };
+
+
+});
+
+
+

@@ -17,4 +17,21 @@ def test_empty_form_submission(page: Page):
 
     # ۳. پیدا کردن دکمه و کلیک روی آن
     page.locator("#loginBtn").click()
+ page.locator("#username").fill("testuser_playwright")
+    
+    # پیدا کردن رمز عبور با استفاده از کلاس (CSS Selector: .pass-input)
+    # چون id پاک شده بود، از کلاسی که مخصوص خودش است استفاده کردیم
+    page.locator(".pass-input").fill("password123")
+    
+    # کلیک روی دکمه ثبت نام با ID
+    page.locator("#register-btn").click()
+    
+    # یک توقف کوتاه برای دیدن نتیجه (در پروژه‌های واقعی به جای sleep از expect استفاده می‌کنیم)
+    time.sleep(1)
+
+    # کلیک روی دکمه ورود با استفاده از ویژگی data-testid
+    # پلی‌رایت یک متد مخصوص برای این ویژگی استاندارد تست دارد
+    page.get_by_test_id("login-button").click()
+    time.sleep(1)
+
 

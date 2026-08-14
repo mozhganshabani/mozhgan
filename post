@@ -1,0 +1,30 @@
+pre:pm.request.headers.add({key:"x-mock-response-delay", value :"5000"});
+console.log("تاخیر و دیلی تنظیم شد");
+post : pm.test("status is 200",function(){
+    pm.response.to.be.success;
+});
+pm.test("Reliability check : response time is below 4500 ms ",function(){
+    pm.expect(pm.response.responseTime).to.be.below(4500);
+    
+});
+console.log(pm.response.responseTime);
+--------------------------------------
+retry: 
+let retries = parseInt(pm.environment.get("retry-count"))||0;
+if(retries === 0){
+    pm.request.headers.add({key:"x-force-error", value:"503"});
+    console.log("تلاش اول : تزریق خطا ");
+}else{
+    pm.request.headers.remove("x-force-error");
+    consol.log("بدون خطای عمدی ");
+};
+ post: let current_retries = parseInt(pm.environment.get("retry-count")) ||0;
+if(pm.response.code === 503 && current_retries <1){
+    console.log("تلاش برای ریترای");
+    pm.environment.set("retry-count",current_retries +1);
+    pm.execution.setNextRequest("Pay-R");
+}
+else if(pm.response.code === 200){
+    console.log("پرداخت موفق بود");
+    pm.environment.unset("retry-count");
+};

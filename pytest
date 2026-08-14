@@ -1,0 +1,63 @@
+pip install pytest requests
+import pytest
+import requests
+
+# آدرس فرضی API فروشگاه
+BASE_URL = "https://api.mock-ecommerce.com/v1"
+
+# یک دیکشنری ساده برای نگهداری State (مثل شناسه سبد خرید) بین تست‌های متوالی
+basket_state = {
+    "basket_id": None
+}
+
+class TestOrderBasket:
+    """
+    مجموعه تست‌های مربوط به سبد خرید
+    نام‌گذاری تست‌ها با اعداد (01, 02) برای تضمین اجرای متوالی در pytest است.
+    """
+
+    def test_01_create_basket(self):
+        """سناریو مثبت: ایجاد یک سبد خرید جدید"""
+        response = requests.post(f"{BASE_URL}/baskets")
+        
+        assert response.status_code == 201, "خطا در ایجاد سبد خرید"
+        
+        # ذخیره شناسه سبد خرید در State برای استفاده در تست‌های بعدی
+        basket_state["basket_id"] = response.json().get("id")
+        assert basket_state["basket_id"] is not None
+
+    def test_02_add_item_to_basket(self):
+        """سناریو وابسته به State: افزودن محصول به سبد خریدی که در تست قبل ساخته شد"""
+        basket_id = basket_state["basket_id"]
+        payload = {
+            "product_id": 105,
+            "quantity": 2
+        }
+        
+        response = requests.post(f"{BASE_URL}/baskets/{basket_id}/items", json=payload)
+        
+        assert response.status_code == 200, "خطا در افزودن محصول به سبد"
+        assert response.json().get("total_items") == 2
+
+    def test_03_checkout_success(self):
+        """سناریو مثبت و وابسته: نهایی کردن خرید"""
+        basket_id = basket_state["basket_id"]
+        
+        response = requests.post(f"{BASE_URL}/baskets/{basket_id}/checkout")
+        
+        assert response.status_code == 200, "خطا در ثبت نهایی سفارش"
+        assert response.json().get("status") == "COMPLETED"
+
+    def test_04_checkout_empty_basket_negative(self):
+        """سناریو منفی: تلاش برای پرداخت سبد خرید خالی (ایجاد سبد جدید بدون محصول)"""
+        # ایجاد یک سبد خالی جدید فقط برای این تست
+        empty_basket_res = requests.post(f"{BASE_URL}/baskets")
+        empty_basket_id = empty_basket_res.json().get("id")
+        
+        # تلاش برای پرداخت
+        response = requests.post(f"{BASE_URL}/baskets/{empty_basket_id}/checkout")
+        
+        # انتظار داریم سیستم خطای ۴۰۰ (درخواست نامعتبر) برگرداند
+        assert response.status_code == 400, "باگ: سیستم اجازه پرداخت سبد خالی را داد!"
+
+----pytest test_order_basket.py -v

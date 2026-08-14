@@ -1,0 +1,18 @@
+from playwright.sync_api import Page, expect
+
+def test_empty_form_submission(page: Page):
+  
+    page.goto("file:///C:/path/to/your/index.html")
+
+    page.locator("#submit").click()
+    
+    error_message = page.locator(".error-msg")
+    
+    expect(error_message).to_be_visible()
+    expect(error_message).to_contain_text("فیلدها اجباری است")
+
+    page.locator("#username").fill("my_test_user")
+
+    # ۳. پیدا کردن دکمه و کلیک روی آن
+    page.locator("#loginBtn").click()
+

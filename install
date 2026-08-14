@@ -42,3 +42,6 @@
 نصب JMeter	۱. دانلود فایل zip. یا tgz. از سایت رسمی Apache JMeter<br>۲. استخراج (Extract) فایل در مسیر دلخواه.
 اجرای رابط کاربری (GUI)<br>(فقط برای طراحی تست)	رفتن به پوشه bin و اجرای:<br>ویندوز: jmeter.bat<br>مک/لینوکس: sh jmeter.sh
 نصب Plugin Manager<br>(بسیار مهم)	دانلود فایل jmeter-plugins-manager.jar و قرار دادن آن در مسیر lib/ext (برای مدیریت راحت‌تر پلاگین‌ها مثل Thread Groupهای پیشرفته).
+Jmeter :
+jmeter -n -t room-reservation-test.jmx -l results/all-results.jtl -e -o report-html
+

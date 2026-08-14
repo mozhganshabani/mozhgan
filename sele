@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
 
-
+driver.find_element(By.CSS_SELECTOR, "input[type='email']")
 def test_create_order():
     driver =webdriver.Chrome()
     uiaddress= "file:///C:/Users/Asus/Downloads/index.html"
